@@ -6,31 +6,33 @@ TRIG = 29
 ECHO = 31
 
 
-print "Distance Measurement In Progress"
-
-GPIO.setup(TRIG,GPIO.OUT)
-GPIO.setup(ECHO,GPIO.IN)
-while True:
-	GPIO.output(TRIG, False)
+#print "Distance Measurement In Progress"
+try:
+    GPIO.setup(TRIG,GPIO.OUT)
+    GPIO.setup(ECHO,GPIO.IN)
+    while True:
+	    GPIO.output(TRIG, False)
 ##	print "Waiting For Sensor to Settle"
 
-	time.sleep(.00001)
+	    time.sleep(.00001)
 
-	GPIO.output(TRIG, True)
-	time.sleep(0.00001)
-	GPIO.output(TRIG, False)
+	    GPIO.output(TRIG, True)
+	    time.sleep(0.00001)
+	    GPIO.output(TRIG, False)
 
-	while GPIO.input(ECHO)==0:
-	    pulse_start = time.time()
+	    while GPIO.input(ECHO)==0:
+	        pulse_start = time.time()
 
-	while GPIO.input(ECHO)==1:
-	    pulse_end = time.time()
+	    while GPIO.input(ECHO)==1:
+	        pulse_end = time.time()
 
-	pulse_duration = pulse_end - pulse_start
+	    pulse_duration = pulse_end - pulse_start
 
-	distance = pulse_duration * 17150
-	distance = round(distance, 20)
+	    distance = pulse_duration * 17150
+	    distance = round(distance, 20)
 
-##	print "Distance" , distance , "cm"
+	    print "Distance" , distance , "cm"
+except: KeyboardInterrupt
 
-GPIO.cleanup()
+finally:
+    GPIO.cleanup()
